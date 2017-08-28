@@ -1,0 +1,58 @@
+/*
+ * BEFORE RUNNING:
+ * ---------------
+ * 1. If not already done, enable the DCM/DFA Reporting And Trafficking API
+ *    and check the quota for your project at
+ *    https://console.developers.google.com/apis/api/dfareporting
+ * 2. Install the Java client library on Maven or Gradle. Check installation
+ *    instructions at https://github.com/google/google-api-java-client.
+ *    On other build systems, you can add the jar files to your project from
+ *    https://developers.google.com/resources/api-libraries/download/dfareporting/v2.8/java
+ */
+
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.services.dfareporting.Dfareporting;
+import com.google.api.services.dfareporting.model.CompatibleFields;
+import com.google.api.services.dfareporting.model.Report;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+
+public class DfareportingExample {
+  public static void main(String args[]) throws IOException, GeneralSecurityException {
+    // The DFA user profile ID.
+    long profileId = 0L; // TODO: Update placeholder value.
+
+    // TODO: Assign values to desired fields of `requestBody`:
+    Report requestBody = new Report();
+
+    Dfareporting dfareportingService = createDfareportingService();
+    Dfareporting.Reports.CompatibleFields.Query request =
+        dfareportingService.reports().compatibleFields().query(profileId, requestBody);
+
+    CompatibleFields response = request.execute();
+
+    // TODO: Change code below to process the `response` object:
+    System.out.println(response);
+  }
+
+  public static Dfareporting createDfareportingService()
+      throws IOException, GeneralSecurityException {
+    HttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+    JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
+
+    // TODO: Change placeholder below to generate authentication credentials. See
+    // https://developers.google.com/doubleclick-advertisers/authorizing#examples
+    //
+    // Authorize using the following scope:
+    //   "https://www.googleapis.com/auth/dfareporting"
+    GoogleCredential credential = null;
+
+    return new Dfareporting.Builder(httpTransport, jsonFactory, credential)
+        .setApplicationName("Google-DfareportingSample/0.1")
+        .build();
+  }
+}
